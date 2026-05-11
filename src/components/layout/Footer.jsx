@@ -1,45 +1,49 @@
 import React from 'react'
-import { siteContent } from '../../data/siteContent.js'
 import { Linkedin, Twitter, Mail } from 'lucide-react'
+import { siteContent } from '../../data/siteContent.js'
 
 export default function Footer() {
+  const { company, nav, footer } = siteContent
   return (
     <footer style={{
-      background: 'linear-gradient(135deg, #071A3E 0%, #0A2A5E 100%)',
-      color: '#fff', padding: '64px 0 32px',
+      background: 'var(--color-primary)',
+      color: '#fff',
+      padding: 'var(--space-16) 0 var(--space-8)',
     }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
+      <div className="container">
         <div style={{
-          display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48,
-          marginBottom: 48,
+          display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr',
+          gap: 'clamp(2rem, 6vw, 4rem)',
+          marginBottom: 'var(--space-12)',
+          paddingBottom: 'var(--space-12)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
         }} className="footer-grid">
+
           {/* Brand */}
           <div>
             <div style={{
-              fontSize: 22, fontWeight: 800, letterSpacing: '-0.02em',
-              marginBottom: 16,
-            }}>
-              NTAB <span style={{ color: '#4ADE80' }}>Energy</span>
-            </div>
+              fontSize: '1.125rem', fontWeight: 800,
+              letterSpacing: '-0.02em', marginBottom: 'var(--space-4)',
+              color: '#fff',
+            }}>{company.name}</div>
             <p style={{
-              fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7,
-              maxWidth: 280, marginBottom: 24,
-            }}>
-              Cabinet de conseil spécialisé dans le développement et le financement de projets énergétiques en Afrique.
-            </p>
-            <div style={{ display: 'flex', gap: 12 }}>
+              fontSize: '0.875rem', color: 'var(--color-text-light)',
+              lineHeight: 1.75, maxWidth: 280,
+              marginBottom: 'var(--space-6)',
+            }}>{footer.description}</p>
+            <div style={{ display: 'flex', gap: 10 }}>
               {[Linkedin, Twitter, Mail].map((Icon, i) => (
                 <a key={i} href="#" style={{
-                  width: 38, height: 38, borderRadius: 10,
-                  background: 'rgba(255,255,255,0.08)',
+                  width: 36, height: 36, borderRadius: 'var(--radius-md)',
+                  border: '1px solid rgba(255,255,255,0.12)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'rgba(255,255,255,0.7)', transition: 'all 0.2s',
-                  textDecoration: 'none',
+                  color: 'rgba(255,255,255,0.5)',
+                  transition: 'all var(--transition)',
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(74,222,128,0.15)'; e.currentTarget.style.color = '#4ADE80' }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)' }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--color-accent)'; e.currentTarget.style.color = 'var(--color-accent)' }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
                 >
-                  <Icon size={16} />
+                  <Icon size={15} />
                 </a>
               ))}
             </div>
@@ -47,59 +51,86 @@ export default function Footer() {
 
           {/* Nav */}
           <div>
-            <h4 style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 20 }}>Navigation</h4>
-            {siteContent.nav.map((item) => (
+            <p style={{
+              fontSize: '0.6875rem', fontWeight: 700,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.3)', marginBottom: 'var(--space-5)',
+            }}>Navigation</p>
+            {nav.map(item => (
               <a key={item.href} href={item.href} style={{
-                display: 'block', color: 'rgba(255,255,255,0.65)', textDecoration: 'none',
-                fontSize: 14, fontWeight: 500, marginBottom: 12, transition: 'color 0.2s',
+                display: 'block', fontSize: '0.875rem',
+                color: 'var(--color-text-light)',
+                marginBottom: 'var(--space-3)',
+                transition: 'color var(--transition)',
               }}
-                onMouseEnter={e => { e.target.style.color = '#4ADE80' }}
-                onMouseLeave={e => { e.target.style.color = 'rgba(255,255,255,0.65)' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--color-text-light)'}
               >{item.label}</a>
             ))}
           </div>
 
           {/* Expertises */}
           <div>
-            <h4 style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 20 }}>Expertises</h4>
-            {['Stratégie', 'Développement', 'Financement', 'PPP', 'Performance', 'Inclusion'].map((item) => (
-              <p key={item} style={{
-                color: 'rgba(255,255,255,0.55)', fontSize: 14, marginBottom: 10,
-              }}>{item}</p>
+            <p style={{
+              fontSize: '0.6875rem', fontWeight: 700,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.3)', marginBottom: 'var(--space-5)',
+            }}>Expertises</p>
+            {footer.expertisesLinks.map(e => (
+              <p key={e} style={{
+                fontSize: '0.875rem', color: 'var(--color-text-light)',
+                marginBottom: 'var(--space-3)', lineHeight: 1.4,
+              }}>{e}</p>
             ))}
           </div>
 
           {/* Contact */}
           <div>
-            <h4 style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 20 }}>Contact</h4>
-            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, marginBottom: 12 }}>contact@ntab-energy.com</p>
-            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, marginBottom: 24 }}>Afrique · Europe · International</p>
-            <a
-              href="#contact"
-              style={{
-                display: 'inline-block', padding: '10px 20px', borderRadius: 10,
-                background: 'rgba(74,222,128,0.15)', border: '1px solid rgba(74,222,128,0.3)',
-                color: '#4ADE80', textDecoration: 'none', fontSize: 13, fontWeight: 700,
-                transition: 'all 0.2s',
-              }}
-            >Démarrer un projet →</a>
+            <p style={{
+              fontSize: '0.6875rem', fontWeight: 700,
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: 'rgba(255,255,255,0.3)', marginBottom: 'var(--space-5)',
+            }}>Contact</p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--color-text-light)', marginBottom: 'var(--space-3)' }}>
+              {company.email}
+            </p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--color-text-light)', marginBottom: 'var(--space-6)' }}>
+              {company.locations}
+            </p>
+            <a href="#contact" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: '0.8125rem', fontWeight: 700,
+              color: 'var(--color-accent)',
+              border: '1px solid rgba(27,104,64,0.4)',
+              padding: '8px 16px', borderRadius: 'var(--radius-md)',
+              transition: 'all var(--transition)',
+              background: 'rgba(27,104,64,0.08)',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(27,104,64,0.18)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(27,104,64,0.08)' }}
+            >
+              Démarrer un projet →
+            </a>
           </div>
         </div>
 
         {/* Bottom */}
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 28,
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          flexWrap: 'wrap', gap: 16,
+          display: 'flex', justifyContent: 'space-between',
+          alignItems: 'center', flexWrap: 'wrap', gap: 'var(--space-4)',
         }}>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.35)' }}>
-            © {new Date().getFullYear()} NTAB Energy. Tous droits réservés.
+          <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.25)' }}>
+            © {new Date().getFullYear()} {company.name}. Tous droits réservés.
           </p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.25)' }}>
-            Strategic Energy Advisory · Africa
+          <p style={{ fontSize: '0.8125rem', color: 'rgba(255,255,255,0.2)' }}>
+            {company.badge} · Africa
           </p>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 640px)  { .footer-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </footer>
   )
 }

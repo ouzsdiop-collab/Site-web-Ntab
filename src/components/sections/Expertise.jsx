@@ -1,89 +1,87 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { LineChart, Building2, Banknote, Handshake, Settings, Users, ArrowRight } from 'lucide-react'
+import { BarChart3, Building2, Banknote, Handshake, Settings2, GraduationCap, ArrowRight } from 'lucide-react'
 import { siteContent } from '../../data/siteContent.js'
 
-const ICONS = { LineChart, Building2, Banknote, Handshake, Settings, Users }
+const ICONS = { BarChart3, Building2, Banknote, Handshake, Settings2, GraduationCap }
 
 export default function Expertise() {
   return (
-    <section id="expertises" style={{
-      padding: '120px 0', background: '#FFFFFF',
-    }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
+    <section id="expertises" className="section" style={{ background: '#fff' }}>
+      <div className="container">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          style={{ textAlign: 'center', marginBottom: 64 }}
+          transition={{ duration: 0.55 }}
+          style={{ marginBottom: 'var(--space-12)' }}
         >
-          <span style={{
-            display: 'inline-block', marginBottom: 16,
-            padding: '6px 16px', borderRadius: 100,
-            background: '#F0FAF4', border: '1px solid #A8D8B8',
-            color: '#1A7A4A', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-          }}>Nos Expertises</span>
-          <h2 style={{
-            fontSize: 'clamp(1.8rem, 3vw, 2.75rem)', fontWeight: 800,
-            color: '#0A2A5E', letterSpacing: '-0.02em', marginBottom: 16,
-          }}>Un conseil à 360° sur le cycle énergétique</h2>
-          <p style={{ fontSize: 16, color: '#6B7280', maxWidth: 560, margin: '0 auto', lineHeight: 1.7 }}>
+          <span className="eyebrow">Nos Expertises</span>
+          <div className="divider" />
+          <h2 className="section-title">Un conseil à 360° sur le cycle énergétique</h2>
+          <p className="section-subtitle">
             De la stratégie nationale à la livraison de projets, nous couvrons l'intégralité des besoins du secteur énergétique africain.
           </p>
         </motion.div>
 
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24,
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 'var(--space-4)',
         }} className="expertise-grid">
           {siteContent.expertises.map((item, i) => {
             const Icon = ICONS[item.icon]
             return (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08, duration: 0.5 }}
+                transition={{ delay: i * 0.07, duration: 0.5 }}
                 style={{
-                  padding: '32px', borderRadius: 20,
-                  background: '#FAFBFF',
-                  border: '1px solid #E8EDF5',
-                  transition: 'all 0.3s ease',
+                  padding: 'var(--space-8)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: 'var(--radius-lg)',
+                  background: '#fff',
+                  transition: 'all var(--transition)',
                   cursor: 'default',
                 }}
-                whileHover={{
-                  y: -4,
-                  boxShadow: '0 16px 40px rgba(10,42,94,0.1)',
-                  borderColor: '#C8DDF5',
-                }}
+                whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(11,31,58,0.08)' }}
               >
                 <div style={{
-                  width: 52, height: 52, borderRadius: 14,
-                  background: 'linear-gradient(135deg, #EEF4FF, #E8F5EE)',
+                  width: 44, height: 44,
+                  borderRadius: 'var(--radius-md)',
+                  background: 'var(--color-accent-light)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginBottom: 20,
+                  marginBottom: 'var(--space-4)',
                 }}>
-                  {Icon && <Icon size={24} color="#0A2A5E" />}
+                  {Icon && <Icon size={20} color="var(--color-accent)" strokeWidth={1.75} />}
                 </div>
                 <h3 style={{
-                  fontSize: 16, fontWeight: 700, color: '#0A2A5E',
-                  marginBottom: 10, lineHeight: 1.3,
+                  fontSize: '0.9375rem', fontWeight: 700,
+                  color: 'var(--color-primary)',
+                  marginBottom: 'var(--space-2)', lineHeight: 1.3,
                 }}>{item.title}</h3>
                 <p style={{
-                  fontSize: 14, color: '#6B7280', lineHeight: 1.7, marginBottom: 16,
+                  fontSize: '0.875rem', color: 'var(--color-text-muted)',
+                  lineHeight: 1.7, marginBottom: 'var(--space-4)',
                 }}>{item.description}</p>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  color: '#1A7A4A', fontSize: 13, fontWeight: 600,
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 4,
+                  fontSize: '0.8125rem', fontWeight: 600,
+                  color: 'var(--color-accent)',
                 }}>
-                  En savoir plus <ArrowRight size={14} />
-                </div>
+                  En savoir plus <ArrowRight size={13} />
+                </span>
               </motion.div>
             )
           })}
         </div>
       </div>
+      <style>{`
+        @media (max-width: 1024px) { .expertise-grid { grid-template-columns: repeat(2,1fr) !important; } }
+        @media (max-width: 640px)  { .expertise-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
     </section>
   )
 }

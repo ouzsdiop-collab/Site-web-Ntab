@@ -1,39 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root {
   /* Brand */
-  --color-primary: #0A1628;
-  --color-accent: #C8A84B;
-  --color-energy: #00CED1;
+  --color-primary:      #0B1F3A;
+  --color-accent:       #1B6840;
+  --color-accent-hover: #154E30;
+  --color-accent-light: #EBF5EE;
 
-  /* Neutrals */
-  --color-white: #FFFFFF;
-  --color-off-white: #F5F7FA;
-  --color-gray-100: #E8E8E8;
-  --color-gray-500: #6B7280;
-  --color-gray-900: #111827;
+  /* Backgrounds */
+  --color-bg:           #FFFFFF;
+  --color-bg-subtle:    #F8F9FA;
+  --color-bg-dark:      #0B1F3A;
+
+  /* Text */
+  --color-text:         #0B1F3A;
+  --color-text-muted:   #6B7280;
+  --color-text-light:   rgba(255,255,255,0.75);
+  --color-text-on-dark: #FFFFFF;
+
+  /* Borders */
+  --color-border:       #E5E7EB;
+  --color-border-dark:  rgba(255,255,255,0.1);
 
   /* Typography */
-  --font-heading: 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Spacing */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-4: 1rem;
-  --space-8: 2rem;
+  /* Spacing (8px base) */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
   --space-16: 4rem;
+  --space-20: 5rem;
   --space-24: 6rem;
 
   /* Layout */
-  --container-max: 1280px;
-  --container-padding: 1.5rem;
-
-  /* Transitions */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
+  --container-max:     1280px;
+  --container-pad:     clamp(1rem, 4vw, 2rem);
+  --container-narrow:  800px;
 
   /* Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+
+  /* Shadows */
+  --shadow-sm:  0 1px 3px rgba(11,31,58,0.06), 0 1px 2px rgba(11,31,58,0.04);
+  --shadow-md:  0 4px 12px rgba(11,31,58,0.08), 0 2px 6px rgba(11,31,58,0.04);
+  --shadow-lg:  0 12px 32px rgba(11,31,58,0.10), 0 4px 12px rgba(11,31,58,0.06);
+
+  /* Transitions */
+  --transition: 200ms ease;
+  --transition-slow: 350ms ease;
 }

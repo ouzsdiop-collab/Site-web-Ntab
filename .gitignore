@@ -33,3 +33,4 @@ dist-ssr
 # API Keys — never commit
 *.key
 secrets/
+.claude/skills/ui-ux-pro-max/scripts/__pycache__/

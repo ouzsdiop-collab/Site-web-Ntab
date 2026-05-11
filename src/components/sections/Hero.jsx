@@ -1,174 +1,231 @@
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
+import { ArrowRight, ChevronDown } from 'lucide-react'
 import { siteContent } from '../../data/siteContent.js'
 
-const LightEnergyNetwork3D = lazy(() => import('../visuals/LightEnergyNetwork3D.jsx'))
-
-function Pill({ children }) {
-  return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 6,
-      padding: '6px 14px', borderRadius: 100,
-      background: '#F0FAF4', border: '1px solid #A8D8B8',
-      color: '#1A7A4A', fontSize: 12, fontWeight: 600,
-      letterSpacing: '0.05em', textTransform: 'uppercase',
-    }}>{children}</span>
-  )
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.6, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }
+  }),
 }
 
-function PillarBadge({ label }) {
-  return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center',
-      padding: '8px 16px', borderRadius: 8,
-      background: 'rgba(10,42,94,0.04)', border: '1px solid rgba(10,42,94,0.1)',
-      color: '#0A2A5E', fontSize: 13, fontWeight: 600,
-    }}>{label}</span>
-  )
-}
-
-export default function Hero3D() {
-  const { company, cta } = siteContent
+export default function Hero() {
+  const { company } = siteContent
+  const lines = company.tagline.split('\n')
 
   return (
     <section id="hero" style={{
-      minHeight: '100vh', paddingTop: 72,
-      background: 'linear-gradient(160deg, #FFFFFF 0%, #F8FAFF 40%, #F0F7F4 100%)',
-      display: 'flex', alignItems: 'center', overflow: 'hidden',
-      position: 'relative',
+      minHeight: '100vh',
+      paddingTop: 72,
+      display: 'flex', flexDirection: 'column',
+      background: '#fff',
+      position: 'relative', overflow: 'hidden',
     }}>
-      {/* Background décoratif */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-        backgroundImage: `
-          radial-gradient(circle at 15% 50%, rgba(26,122,74,0.04) 0%, transparent 50%),
-          radial-gradient(circle at 85% 20%, rgba(10,42,94,0.05) 0%, transparent 50%)
-        `,
+      {/* Fond graphique sobre : bandes verticales très légères */}
+      <div aria-hidden style={{
+        position: 'absolute', inset: 0, zIndex: 0,
+        backgroundImage: 'repeating-linear-gradient(90deg, rgba(11,31,58,0.018) 0px, rgba(11,31,58,0.018) 1px, transparent 1px, transparent calc((100% - 2px) / 12))',
+        backgroundSize: '100% 100%',
         pointerEvents: 'none',
       }} />
 
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '60px 24px', width: '100%' }}>
+      {/* Accent vert très discret en haut à droite */}
+      <div aria-hidden style={{
+        position: 'absolute', top: 72, right: 0,
+        width: '40vw', height: '60vh',
+        background: 'radial-gradient(ellipse at top right, rgba(27,104,64,0.04) 0%, transparent 70%)',
+        pointerEvents: 'none', zIndex: 0,
+      }} />
+
+      <div className="container" style={{
+        flex: 1, display: 'flex', alignItems: 'center',
+        position: 'relative', zIndex: 1,
+        paddingTop: 'clamp(3rem, 8vh, 6rem)',
+        paddingBottom: 'clamp(3rem, 8vh, 6rem)',
+      }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr',
-          gap: 64, alignItems: 'center',
+          gap: 'clamp(2rem, 6vw, 6rem)',
+          alignItems: 'center',
+          width: '100%',
         }} className="hero-grid">
+
           {/* Colonne texte */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
-            <div style={{ marginBottom: 24 }}>
-              <Pill>
+          <div>
+            <motion.div
+              initial="hidden" animate="visible" custom={0} variants={fadeUp}
+              style={{ marginBottom: 'var(--space-6)' }}
+            >
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                fontSize: '0.75rem', fontWeight: 700,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: 'var(--color-accent)',
+              }}>
                 <span style={{
-                  width: 6, height: 6, borderRadius: '50%', background: '#1A7A4A',
-                  display: 'inline-block',
+                  width: 20, height: 2,
+                  background: 'var(--color-accent)',
+                  display: 'inline-block', borderRadius: 1,
                 }} />
                 {company.badge}
-              </Pill>
-            </div>
-
-            <h1 style={{
-              fontSize: 'clamp(2.2rem, 4vw, 3.4rem)', fontWeight: 800,
-              color: '#0A2A5E', lineHeight: 1.15, letterSpacing: '-0.02em',
-              marginBottom: 24,
-            }}>
-              {company.tagline}
-            </h1>
-
-            <p style={{
-              fontSize: 'clamp(1rem, 1.5vw, 1.125rem)',
-              color: '#4B5563', lineHeight: 1.75, marginBottom: 36,
-              maxWidth: 520,
-            }}>
-              {company.taglineSub}
-            </p>
-
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 40 }}>
-              <a
-                href="#expertises"
-                style={{
-                  padding: '14px 28px', borderRadius: 12,
-                  background: 'linear-gradient(135deg, #0A2A5E, #1A4A8E)',
-                  color: '#fff', textDecoration: 'none',
-                  fontSize: 15, fontWeight: 700,
-                  boxShadow: '0 4px 16px rgba(10,42,94,0.3)',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  display: 'inline-block',
-                }}
-                onMouseEnter={e => { e.target.style.transform = 'translateY(-2px)'; e.target.style.boxShadow = '0 8px 24px rgba(10,42,94,0.35)' }}
-                onMouseLeave={e => { e.target.style.transform = 'none'; e.target.style.boxShadow = '0 4px 16px rgba(10,42,94,0.3)' }}
-              >
-                {cta.primary}
-              </a>
-              <a
-                href="#contact"
-                style={{
-                  padding: '14px 28px', borderRadius: 12,
-                  background: '#fff', color: '#0A2A5E',
-                  textDecoration: 'none', fontSize: 15, fontWeight: 700,
-                  border: '2px solid #0A2A5E',
-                  transition: 'all 0.2s ease',
-                  display: 'inline-block',
-                }}
-                onMouseEnter={e => { e.target.style.background = '#F0F4FF' }}
-                onMouseLeave={e => { e.target.style.background = '#fff' }}
-              >
-                {cta.secondary}
-              </a>
-            </div>
-
-            {/* Pillars */}
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {company.pillars.map((p) => <PillarBadge key={p} label={p} />)}
-            </div>
-          </motion.div>
-
-          {/* Colonne 3D */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            className="hero-3d-col"
-            style={{
-              background: 'rgba(255,255,255,0.7)',
-              borderRadius: 24,
-              border: '1px solid rgba(10,42,94,0.08)',
-              boxShadow: '0 20px 60px rgba(10,42,94,0.08), 0 4px 16px rgba(10,42,94,0.04)',
-              overflow: 'hidden',
-              backdropFilter: 'blur(8px)',
-              padding: 8,
-            }}
-          >
-            <Suspense fallback={
-              <div style={{
-                height: 500, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#9CA3AF', fontSize: 14,
-              }}>
-                Chargement du réseau énergétique…
-              </div>
-            }>
-              <LightEnergyNetwork3D height={500} />
-            </Suspense>
-
-            {/* Label carte */}
-            <div style={{
-              padding: '12px 20px', display: 'flex', alignItems: 'center',
-              justifyContent: 'space-between',
-              borderTop: '1px solid rgba(10,42,94,0.06)',
-            }}>
-              <span style={{ fontSize: 12, color: '#9CA3AF', fontWeight: 500 }}>
-                Réseau énergétique africain
               </span>
-              <span style={{
-                fontSize: 11, color: '#1A7A4A', fontWeight: 600,
-                background: '#F0FAF4', padding: '3px 10px', borderRadius: 100,
-              }}>Live</span>
+            </motion.div>
+
+            <motion.h1
+              initial="hidden" animate="visible" custom={1} variants={fadeUp}
+              style={{
+                fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
+                fontWeight: 800,
+                color: 'var(--color-primary)',
+                letterSpacing: '-0.03em',
+                lineHeight: 1.1,
+                marginBottom: 'var(--space-6)',
+              }}
+            >
+              {lines.map((line, i) => (
+                <span key={i} style={{ display: 'block' }}>
+                  {i === 1
+                    ? <><span style={{ color: 'var(--color-accent)' }}>{line.split(' ')[0]}</span>{' '}{line.split(' ').slice(1).join(' ')}</>
+                    : line
+                  }
+                </span>
+              ))}
+            </motion.h1>
+
+            <motion.p
+              initial="hidden" animate="visible" custom={2} variants={fadeUp}
+              style={{
+                fontSize: 'clamp(1rem, 1.5vw, 1.0625rem)',
+                color: 'var(--color-text-muted)',
+                lineHeight: 1.8,
+                marginBottom: 'var(--space-8)',
+                maxWidth: 520,
+              }}
+            >
+              {company.taglineSub}
+            </motion.p>
+
+            <motion.div
+              initial="hidden" animate="visible" custom={3} variants={fadeUp}
+              style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
+            >
+              <a href="#expertises" className="btn btn--primary">
+                Nos expertises <ArrowRight size={16} />
+              </a>
+              <a href="#contact" className="btn btn--outline">
+                Nous contacter
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Colonne droite : carte sobre avec chiffres */}
+          <motion.div
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-card-col"
+          >
+            <div style={{
+              border: '1px solid var(--color-border)',
+              borderRadius: 'var(--radius-xl)',
+              overflow: 'hidden',
+              background: 'var(--color-bg-subtle)',
+            }}>
+              {/* Bandeau haut */}
+              <div style={{
+                background: 'var(--color-primary)',
+                padding: 'var(--space-6) var(--space-8)',
+                color: '#fff',
+              }}>
+                <p style={{
+                  fontSize: '0.75rem', fontWeight: 700,
+                  letterSpacing: '0.1em', textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.5)', marginBottom: 8,
+                }}>NTAB Energy</p>
+                <p style={{
+                  fontSize: '1.0625rem', fontWeight: 600,
+                  color: '#fff', lineHeight: 1.4,
+                }}>Cabinet de conseil stratégique en énergie pour le développement africain</p>
+              </div>
+
+              {/* Grille de chiffres */}
+              <div style={{
+                display: 'grid', gridTemplateColumns: '1fr 1fr',
+              }}>
+                {siteContent.stats.map((s, i) => (
+                  <div key={i} style={{
+                    padding: 'var(--space-6) var(--space-6)',
+                    borderRight: i % 2 === 0 ? '1px solid var(--color-border)' : 'none',
+                    borderBottom: i < 2 ? '1px solid var(--color-border)' : 'none',
+                  }}>
+                    <div style={{
+                      fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
+                      fontWeight: 800,
+                      color: 'var(--color-primary)',
+                      letterSpacing: '-0.03em',
+                      lineHeight: 1,
+                      marginBottom: 6,
+                    }}>{s.value}</div>
+                    <div style={{
+                      fontSize: '0.8125rem',
+                      color: 'var(--color-text-muted)',
+                      lineHeight: 1.4,
+                    }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pied de carte */}
+              <div style={{
+                padding: 'var(--space-4) var(--space-6)',
+                borderTop: '1px solid var(--color-border)',
+                display: 'flex', alignItems: 'center', gap: 8,
+              }}>
+                <span style={{
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: 'var(--color-accent)', display: 'inline-block',
+                }} />
+                <span style={{
+                  fontSize: '0.8125rem',
+                  color: 'var(--color-text-muted)',
+                  fontWeight: 500,
+                }}>Présent dans 10+ marchés africains</span>
+              </div>
             </div>
           </motion.div>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
+        style={{
+          position: 'absolute', bottom: 32, left: '50%',
+          transform: 'translateX(-50%)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+          color: 'var(--color-text-muted)', fontSize: '0.75rem',
+          fontWeight: 500, letterSpacing: '0.05em',
+        }}
+      >
+        <span>Découvrir</span>
+        <ChevronDown size={16} style={{ animation: 'bounce 2s infinite' }} />
+      </motion.div>
+
+      <style>{`
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(4px); }
+        }
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-card-col { display: none !important; }
+        }
+      `}</style>
     </section>
   )
 }
